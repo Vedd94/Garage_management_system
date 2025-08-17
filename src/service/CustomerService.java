@@ -33,11 +33,31 @@ public class CustomerService {
         while(rs.next())
         {
             list.add(new Customer(rs.getInt("id"),
-                    rs.getString("nasme"),
+                    rs.getString("name"),
                     rs.getString("phone")));
 
         }
         return list;
-
     }
+
+    public Customer getCustomersBasedOnNum(int number) throws SQLException
+    {
+        Customer customer = new Customer();
+        List<Customer> list = new ArrayList<>();
+        Connection conn = DbConfig.getConnection();
+
+        Statement statement = conn.createStatement();
+        ResultSet rs = statement.executeQuery("SELECT * FROM customers" +
+                                                "where phone = "+ number);
+
+        while(rs.next())
+        {
+            customer = new Customer(rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("phone"));
+
+        }
+        return customer;
+    }
+
 }
